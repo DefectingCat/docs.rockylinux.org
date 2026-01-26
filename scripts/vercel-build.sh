@@ -11,10 +11,8 @@ uv pip install --system -r requirements.txt
 # Create minimal mkdocs wrapper for mike to find
 echo "Creating minimal mkdocs wrapper for mike..."
 cat > mkdocs << 'EOF'
-#!/usr/bin/env python3
-import sys
-from mkdocs.__main__ import cli
-cli()
+#!/bin/bash
+exec uv run python3 -c "from mkdocs.__main__ import cli; cli()" "$@"
 EOF
 chmod +x mkdocs
 
