@@ -91,13 +91,13 @@ build_version() {
     
     echo "Deploying version $version with preserved git history"
     if [ -n "$alias" ] && [ -n "$title" ]; then
-        python3 -c "import sys; sys.argv=['mike','deploy','$version','$alias','--title=$title']; from mike.driver import main; main()"
+        uv run mike deploy "$version" "$alias" --title="$title"
     elif [ -n "$alias" ]; then
-        python3 -c "import sys; sys.argv=['mike','deploy','$version','$alias']; from mike.driver import main; main()"
+        uv run mike deploy "$version" "$alias"
     elif [ -n "$title" ]; then
-        python3 -c "import sys; sys.argv=['mike','deploy','$version','--title=$title']; from mike.driver import main; main()"
+        uv run mike deploy "$version" --title="$title"
     else
-        python3 -c "import sys; sys.argv=['mike','deploy','$version']; from mike.driver import main; main()"
+        uv run mike deploy "$version"
     fi
     
     echo "Rocky Linux $version deployed successfully with git history preserved"
@@ -127,13 +127,13 @@ build_version "9" "rocky-9" "" ""
 build_version "10" "main" "latest" ""
 
 echo "Setting default version..."
-python3 -c "import sys; sys.argv=['mike','set-default','latest']; from mike.driver import main; main()"
+uv run mike set-default latest
 
 echo "All versions deployed successfully"
 
 # Verify mike state
 echo "Verifying mike deployment..."
-python3 -c "import sys; sys.argv=['mike','list']; from mike.driver import main; main()"
+uv run mike list
 
 echo "Extracting built site for Vercel with ROOT + VERSIONED deployment..."
 
