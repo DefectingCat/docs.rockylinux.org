@@ -4,22 +4,15 @@ set -e
 
 echo "=== VERCEL BUILD - PRODUCTION ==="
 
-# Install dependencies
-echo "Installing dependencies..."
-uv pip install --system -r requirements.txt
+# Install dependencies into a virtual environment
+echo "Creating virtual environment and installing dependencies..."
+uv venv --python 3.12 .venv
+uv pip install -r requirements.txt
 
-# Create minimal mkdocs wrapper for mike to find
-echo "Creating minimal mkdocs wrapper for mike..."
-cat > mkdocs << 'EOF'
-#!/bin/bash
-exec uv run python3 -c "from mkdocs.__main__ import cli; cli()" "$@"
-EOF
-chmod +x mkdocs
+# Add venv bin to PATH so mike/mkdocs are found directly
+export PATH="$(pwd)/.venv/bin:$PATH"
 
-# Add current directory to PATH so mike can find our mkdocs wrapper
-export PATH=".:$PATH"
-
-echo "mkdocs wrapper created and added to PATH"
+echo "Virtual environment created and added to PATH"
 
 # FORCE cleanup of any existing content
 echo "Force cleaning any existing directories..."
@@ -89,13 +82,13 @@ build_version() {
     
     echo "Deploying version $version with preserved git history"
     if [ -n "$alias" ] && [ -n "$title" ]; then
-        uv run mike deploy "$version" "$alias" --title="$title"
+        mike deploy "$version" "$alias" --title="$title"
     elif [ -n "$alias" ]; then
-        uv run mike deploy "$version" "$alias"
+        mike deploy "$version" "$alias"
     elif [ -n "$title" ]; then
-        uv run mike deploy "$version" --title="$title"
+        mike deploy "$version" --title="$title"
     else
-        uv run mike deploy "$version"
+        mike deploy "$version"
     fi
     
     echo "Rocky Linux $version deployed successfully with git history preserved"
@@ -116,7 +109,6 @@ git config user.email "webmaster@rockylinux.org"
 # Create initial commit
 echo "# Rocky Linux Docs Build" > README.md
 git add README.md
-git add -f mkdocs  # Force add mkdocs wrapper even if in gitignore elsewhere
 git commit -m "Initial commit for Vercel build $(date)"
 
 # Build each version from its respective branch
@@ -125,13 +117,13 @@ build_version "9" "rocky-9" "" ""
 build_version "10" "main" "latest" ""
 
 echo "Setting default version..."
-uv run mike set-default latest
+mike set-default latest
 
 echo "All versions deployed successfully"
 
 # Verify mike state
 echo "Verifying mike deployment..."
-uv run mike list
+mike list
 
 echo "Extracting built site for Vercel with ROOT + VERSIONED deployment..."
 

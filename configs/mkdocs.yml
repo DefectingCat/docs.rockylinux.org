@@ -117,7 +117,8 @@ plugins:
       redirect_maps:
         "guides/add_mirror_manager.md": "guides/mirror_management/add_mirror_manager.md"
   - tags
-  - privacy
+  - privacy:
+      assets_fetch: false
 extra:
   version:
     provider: mike
