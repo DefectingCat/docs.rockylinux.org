@@ -90,6 +90,9 @@ plugins:
         "guides/add_mirror_manager.md": "guides/mirror_management/add_mirror_manager.md"
   - tags
   - privacy
+  - macros:
+      include_dir: include
+      render_by_default: false
 extra:
   version:
     provider: mike
