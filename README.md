@@ -24,7 +24,7 @@ All documentation content is sourced from the [rocky-linux/documentation](https:
 
 ## How the Build Process Works
 
-The deployment process is orchestrated by Vercel, which executes a custom build script.
+The deployment process is orchestrated by Vercel, which executes a custom build script .
 
 1.  **Trigger:** A push to this repository's `main` branch triggers a new build on Vercel.
 2.  **Build:** Vercel runs the `./scripts/vercel-build.sh` script, which uses [mkdocs](https://www.mkdocs.org/) and the [mike](https://github.com/jimporter/mike) plugin to build a versioned static HTML site.
