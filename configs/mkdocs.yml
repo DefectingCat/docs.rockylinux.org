@@ -120,8 +120,8 @@ plugins:
   - macros:
       include_dir: include
       render_by_default: false
-  - privacy:
-      assets_fetch: false
+#  - privacy:
+#      assets_fetch: false
 extra:
   version:
     provider: mike
