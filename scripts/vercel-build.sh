@@ -61,6 +61,8 @@ build_version() {
     # Create a symlink to preserve git history access
     rm -rf docs
     ln -sf "$repo_dir/docs" docs
+    rm -rf include
+    ln -sf "$repo_dir/include" include
     
     # Ensure mkdocs.yml is available for mike operations
     if [ ! -f "mkdocs.yml" ]; then
