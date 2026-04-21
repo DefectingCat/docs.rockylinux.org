@@ -11,7 +11,7 @@ This repository is responsible for building and deploying the official Rocky Lin
 - [Content Source ](#content-source)
 - [How the Build Process Works](#how-the-build-process-works)
 - [Key Files & Scripts](#key-files--scripts)
-- [Deep Dive: The `vercel-build.sh` Script](#deep-dive-the-vercel-buildsh-script)
+- [Deep Dive : The `vercel-build.sh` Script](#deep-dive-the-vercel-buildsh-script)
 - [How to Maintain the Site](#how-to-maintain-the-site)
 - [Managing Deployments on Vercel](#managing-deployments-on-vercel)
   - [Vercel CLI](#vercel-cli)
