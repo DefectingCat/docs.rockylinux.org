@@ -17,9 +17,17 @@ export PATH="$(pwd)/.venv/bin:$PATH"
 
 echo "Virtual environment created and added to PATH"
 
+# Patch privacy plugin for better reliability (timeout + retries)
+echo "Patching privacy plugin for offline deployment..."
+./scripts/patch_privacy_plugin.py .venv
+
 # FORCE cleanup of build artifacts (but preserve local documentation repos)
 echo "Force cleaning build artifacts (preserving rockydocs-* for incremental updates)..."
 rm -rf docs site 2>/dev/null || true
+
+# Create privacy plugin cache directory for offline deployment
+echo "Setting up offline deployment cache..."
+mkdir -p "$PROJECT_ROOT/.cache/privacy"
 
 # Create isolated build directory for git init and mike operations
 # Cloned repos go to project root, but git/mike state stays isolated
@@ -74,6 +82,8 @@ build_version() {
     ln -sf "$repo_path/include" include
     rm -rf theme
     ln -sf "$PROJECT_ROOT/theme" theme
+    rm -rf .cache
+    ln -sf "$PROJECT_ROOT/.cache" .cache
 
     # Ensure mkdocs.yml is available for mike operations
     if [ ! -f "mkdocs.yml" ]; then
@@ -240,6 +250,7 @@ echo "   • Version selector: Still works from any page"
 echo "   • Existing bookmarks: Will continue to work"
 echo "   • Versioned access: All versions accessible via /8/, /9/, /10/, /latest/"
 echo "   • Git history: Preserved for accurate timestamps"
+echo "   • OFFLINE DEPLOYMENT: All CDN resources downloaded locally"
 echo ""
 echo "Build output location: $PROJECT_ROOT/site/"
 echo ""
