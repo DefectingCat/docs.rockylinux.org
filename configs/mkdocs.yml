@@ -96,7 +96,6 @@ plugins:
   - privacy:
       enabled: true
       assets: true
-      links: true
       cache: true
   - macros:
       include_dir: include

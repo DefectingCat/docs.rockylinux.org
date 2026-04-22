@@ -9,7 +9,7 @@ PROJECT_ROOT="$(pwd)"
 
 # Install dependencies into a virtual environment
 echo "Creating virtual environment and installing dependencies..."
-uv venv --python 3.12 .venv
+uv venv --python 3.12 .venv -c
 uv pip install -r requirements.txt
 
 # Add venv bin to PATH so mike/mkdocs are found directly
@@ -19,7 +19,7 @@ echo "Virtual environment created and added to PATH"
 
 # Patch privacy plugin for better reliability (timeout + retries)
 echo "Patching privacy plugin for offline deployment..."
-./scripts/patch_privacy_plugin.py .venv
+.venv/bin/python ./scripts/patch_privacy_plugin.py .venv
 
 # FORCE cleanup of build artifacts (but preserve local documentation repos)
 echo "Force cleaning build artifacts (preserving rockydocs-* for incremental updates)..."
