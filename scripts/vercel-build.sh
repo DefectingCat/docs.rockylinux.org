@@ -9,6 +9,25 @@ echo "Creating virtual environment and installing dependencies..."
 uv venv --python 3.12 .venv
 uv pip install -r requirements.txt
 
+# --- PATCH START ---
+echo "Patching mkdocs-awesome-pages-plugin for i18n stability..."
+
+S_PKG=".venv/lib/python3.12/site-packages/mkdocs_awesome_pages_plugin"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS syntax
+    sed -i '' 's/if item.children:/if hasattr(item, "children") and item.children:/g' "$S_PKG/navigation.py"
+    sed -i '' 's/class MetaNavRestItem(MetaNavItem):/class MetaNavRestItem(MetaNavItem):\n    children = []\n    is_section = False\n    is_page = False\n    is_link = False/g' "$S_PKG/meta.py"
+else
+    # Linux (Vercel) syntax
+    sed -i 's/if item.children:/if hasattr(item, "children") and item.children:/g' "$S_PKG/navigation.py"
+    sed -i 's/class MetaNavRestItem(MetaNavItem):/class MetaNavRestItem(MetaNavItem):\n    children = []\n    is_section = False\n    is_page = False\n    is_link = False/g' "$S_PKG/meta.py"
+fi
+
+echo "Patch applied successfully."
+# --- PATCH END ---
+
+
 # Add venv bin to PATH so mike/mkdocs are found directly
 export PATH="$(pwd)/.venv/bin:$PATH"
 
