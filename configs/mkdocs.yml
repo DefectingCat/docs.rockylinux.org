@@ -121,10 +121,6 @@ plugins:
       redirect_maps:
         "guides/add_mirror_manager.md": "guides/mirror_management/add_mirror_manager.md"
   - tags
-  - privacy:
-      enabled: true
-      assets: true
-      cache: true
   - macros:
       include_dir: include
       render_by_default: false
