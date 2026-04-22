@@ -71,7 +71,6 @@ plugins:
   - mike:
       version_selector: true
   - search
-  - awesome-pages
   - i18n:
       docs_structure: suffix
       fallback_to_default: true
@@ -115,6 +114,7 @@ plugins:
           default: false
           locale: zh
           name: 简体中文
+  - awesome-nav
   - git-revision-date-localized:
       type: date
   - redirects:

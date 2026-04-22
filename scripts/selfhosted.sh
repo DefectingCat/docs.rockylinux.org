@@ -31,11 +31,13 @@ mkdir -p "$PROJECT_ROOT/.cache/privacy"
 
 # Create isolated build directory for git init and mike operations
 # Cloned repos go to project root, but git/mike state stays isolated
-BUILD_DIR=$(mktemp -d)
+# Use project directory instead of /tmp to avoid disk quota issues with tmpfs
+BUILD_DIR="$PROJECT_ROOT/.build"
+mkdir -p "$BUILD_DIR"
 echo "Created isolated build directory: $BUILD_DIR"
 
 # Cleanup trap: only removes the temporary build directory on exit
-trap 'echo "Cleaning up build directory: $BUILD_DIR"; rm -rf "$BUILD_DIR"' EXIT
+# trap 'echo "Cleaning up build directory: $BUILD_DIR"; rm -rf "$BUILD_DIR"' EXIT
 
 # Change to build directory for all git/mike operations
 pushd "$BUILD_DIR"
