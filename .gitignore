@@ -27,3 +27,4 @@ package-lock.json
 # Development files
 .envrc.local
 archive/
+.omc/
