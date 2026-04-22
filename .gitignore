@@ -2,6 +2,8 @@
 site/
 public/
 build/
+.build/
+.build-test/
 
 # Cloned documentation sources (temporary)
 docs/
