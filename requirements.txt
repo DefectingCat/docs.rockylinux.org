@@ -10,3 +10,4 @@ mkdocs-macros-plugin
 mkdocs-minify-plugin
 mike
 jieba
+brotli

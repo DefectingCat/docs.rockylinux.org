@@ -242,6 +242,11 @@ fi
 echo "Copying built site to project root: $PROJECT_ROOT/site"
 cp -r site "$PROJECT_ROOT/site"
 
+# Run pre-compression to generate .gz and .br files
+echo ""
+echo "Running static file pre-compression..."
+"$PROJECT_ROOT/.venv/bin/python" "$PROJECT_ROOT/scripts/precompress.py"
+
 echo ""
 echo "Self-hosted build completed successfully!"
 echo "Features:"
